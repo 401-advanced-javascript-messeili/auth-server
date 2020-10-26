@@ -15,7 +15,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.get('/oauth', oauth, (req, res) => {
-  res.json({ token: req.token });
+  res.json({ userinfo: req.user, token: req.token });
 });
 
 router.post('/signin', basicAuth, (req, res) => {

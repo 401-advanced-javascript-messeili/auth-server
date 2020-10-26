@@ -55,7 +55,16 @@ async function getUser(remoteUser) {
     username: remoteUser.login,
     password: 'oauthpassword', //this can be anything (it will be hashed)
   };
-  const user = await users.save(record);
-  const token = users.generateToken(user);
-  return [user, token];
+  const check = await users.get({ username: record.username });
+  if (check.length > 0) {
+    console.log('record');
+    const user = check;
+    const token = users.generateToken(user);
+    return [user, token];
+  } else {
+    console.log('saaaaaaaaaaaaaave');
+    const user = await users.save(record);
+    const token = users.generateToken(user);
+    return [user, token];
+  }
 }
