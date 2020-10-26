@@ -4,6 +4,7 @@ const express = require('express');
 
 const router = express.Router();
 const users = require('../auth/models/users/users-model.js');
+const oauth = require('../auth/middleware/oauth.js');
 const basicAuth = require('../auth/middleware/basic.js');
 
 router.post('/signup', (req, res) => {
@@ -11,6 +12,10 @@ router.post('/signup', (req, res) => {
   users.save(req.body).then((user) => {
     res.json(user);
   });
+});
+
+router.get('/oauth', oauth, (req, res) => {
+  res.json({ token: req.token });
 });
 
 router.post('/signin', basicAuth, (req, res) => {

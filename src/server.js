@@ -12,6 +12,7 @@ const notFound = require('./middleware/404.js');
 const errorHandler = require('./middleware/500.js');
 // const apiRouter = require('../routes/api.js');
 
+app.use(express.static('./public'));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
