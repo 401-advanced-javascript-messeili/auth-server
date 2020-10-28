@@ -5,6 +5,7 @@ class Collection {
   }
   get(record) {
     const query = record ? record : {};
+    console.log(record);
     return this.model.find(query);
   }
   create(record) {

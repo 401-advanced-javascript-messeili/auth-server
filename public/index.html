@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OAuth</title>
+  </head>
+  <body>
+    <main>
+      <a id="oauth" href="">Login</a>
+    </main>
+    <script>
+        // this is the base url from GH docs
+
+const URL = 'https://github.com/login/oauth/authorize';
+
+const options = {
+  client_id: '15ade92692e23af8dab9',
+  scope: 'read:user',
+  state: '401 app consent',
+};
+
+const queryString = Object.keys(options)
+  .map((key) => {
+    return `${key}=${encodeURI(options[key])}`;
+  })
+  .join('&');
+
+console.log('query', queryString);
+
+const authURL = `${URL}?${queryString}`;
+
+const linkTag = document.getElementById('oauth');
+linkTag.setAttribute('href', authURL);
+
+
+    </script>
+  </body>
+</html>

@@ -3,14 +3,19 @@
 const express = require('express');
 
 const router = express.Router();
-const users = require('../auth/models/users/users-model.js');
-const basicAuth = require('../auth/middleware/basic.js');
+const users = require('../models/users/users-model.js');
+const oauth = require('../middleware/oauth.js');
+const basicAuth = require('../middleware/basic.js');
 
 router.post('/signup', (req, res) => {
   console.log(req.body);
   users.save(req.body).then((user) => {
     res.json(user);
   });
+});
+
+router.get('/oauth', oauth, (req, res) => {
+  res.json({ userinfo: req.user, token: req.token });
 });
 
 router.post('/signin', basicAuth, (req, res) => {
