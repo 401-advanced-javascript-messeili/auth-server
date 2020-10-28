@@ -2,11 +2,13 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const app = express();
 const morgan = require('morgan');
 // const users = require('../src/auth/models/users/users-model.js');
 // const basicAuth = require('./auth/middleware/basic.js');
-const router = require('../src/auth/router.js');
+const router = require('./auth/routes/router.js');
+const router2 = require('./auth/routes/extra-routes.js');
 // const logger = require('../middleware/logger.js');
 const notFound = require('./middleware/404.js');
 const errorHandler = require('./middleware/500.js');
@@ -17,6 +19,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
 app.use('/', router);
+app.use('/', router2);
 
 const PORT = process.env.PORT || 4000;
 

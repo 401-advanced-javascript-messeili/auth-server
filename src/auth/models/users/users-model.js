@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 'use strict';
 
 const jwt = require('jsonwebtoken');
@@ -36,8 +37,32 @@ class User extends Collection {
   }
 
   generateToken(user) {
-    const token = jwt.sign({ username: user.username }, SECRET);
+    const token = jwt.sign(
+      { username: user.username },
+      SECRET,
+      {
+        expiresIn: 900, // expires in 15 min
+      },
+      { jti: 'one' }
+    );
     return token;
+  }
+
+  async authenticateToken(token) {
+    try {
+      const tokenObject = jwt.verify(token, SECRET);
+      console.log('TOKEN OBJECT', tokenObject);
+      const check = await this.get({ username: tokenObject.username });
+      if (check) {
+        console.log('Authentic user');
+        return Promise.resolve(tokenObject);
+      } else {
+        return Promise.reject();
+      }
+    } catch (e) {
+      console.log('Invalid user');
+      return Promise.reject(e.message);
+    }
   }
 }
 
