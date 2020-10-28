@@ -38,13 +38,14 @@ class User extends Collection {
 
   generateToken(user) {
     const token = jwt.sign(
-      { username: user.username },
+      { username: user.username, capabilities: this.capabilities(user) },
       SECRET,
       {
         expiresIn: 900, // expires in 15 min
       },
       { jti: 'one' }
     );
+    console.log('cap', this.capabilities(user));
     return token;
   }
 
@@ -62,6 +63,22 @@ class User extends Collection {
     } catch (e) {
       console.log('Invalid user');
       return Promise.reject(e.message);
+    }
+  }
+
+  capabilities(user) {
+    console.log('capabilities executed');
+    if (user.role === 'admin') {
+      return ['read', 'create', 'update', 'delete'];
+    }
+    if (user.role === 'user') {
+      return ['read'];
+    }
+    if (user.role === 'writer') {
+      return ['read', 'create'];
+    }
+    if (user.role === 'editor') {
+      return ['read', 'create', 'update'];
     }
   }
 }
