@@ -42,8 +42,7 @@ class User extends Collection {
       SECRET,
       {
         expiresIn: 900, // expires in 15 min
-      },
-      { jti: 'one' }
+      }
     );
     console.log('cap', this.capabilities(user));
     return token;
